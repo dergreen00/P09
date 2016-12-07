@@ -1,0 +1,532 @@
+package GeometrischeFormen;
+import MyException.*;
+
+import java.io.*;
+import java.util.ArrayList;
+
+public class ListPrimitives {
+	private ArrayList<Primitive> primitives = new ArrayList<Primitive>();
+	protected FileWriter writer;
+	protected FileReader reader;
+	private File file;
+
+	public ListPrimitives() {
+		file = new File("test.txt");
+	}
+	
+	public int getCount(){
+		return primitives.size();
+	}
+
+	public void sortScope() {
+		Primitive temp;
+		for (int i = 1; i < primitives.size(); i++) {
+			for (int j = 0; j < primitives.size() - i; j++) {
+				if (primitives.get(j).getScope() > primitives.get(j+1).getScope()) {
+					temp = primitives.get(j);
+					primitives.add(j,primitives.get(j+1));
+					primitives.add(j+1,temp);
+					//Doesn't Work
+				}
+			}
+		}
+	}
+	
+
+	private void writeInFile(String text) {
+
+		try {
+			writer = new FileWriter(file, true);
+			writer.write(text + "\n");
+			writer.write(System.getProperty("line.separator"));
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			System.out.println("Mist");
+		}
+
+	}
+
+	public void readFile() {
+		try {
+			reader = new FileReader("test.txt");
+			BufferedReader br = new BufferedReader(reader);
+			String aktuelle = br.readLine();
+			while (aktuelle != null) {
+
+				addFromFile(aktuelle);
+				aktuelle = br.readLine();
+			}
+			br.close();
+			reader.close();
+		} catch (IOException e) {
+
+		}
+	}
+	private void addFromFile(String line) {
+		// System.out.println(line);
+		String[] zeile = line.split(";"); // in der Zeile stehen die Werte wie
+											// länge, koordinaten
+		Primitive p = erstelleForm(zeile);
+
+		boolean da = false;
+		if(primitives.contains(p)){
+		
+		}
+		try{
+		
+			if(primitives.contains(p)){
+				da = true;
+			}
+		}catch(Exception e){
+			System.out.println("Es gibt ein Problem in der Datei.");
+		}
+		if (!da) {
+			try {
+				add(p);
+			} catch (WrongArgumentException e) {
+				// TODO Auto-generated catch block
+				
+			}
+		}
+
+	}
+	
+	public Primitive getByIndex(int index) throws MyArrayOutOfBoundsException{
+		Primitive p;
+		try{
+			p = primitives.get(index);	
+			return p;
+		}
+		catch(MyArrayOutOfBoundsException e){
+			System.out.println(e);;
+		}
+		return null;
+	}
+
+	protected Primitive erstelleForm(String[] zeile) {
+		Primitive p = null;
+		switch (zeile[0]) {
+		case "Rechteck":
+			p = new Rectangle(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]), Double.parseDouble(zeile[8]));
+			break;
+		case "Quadrat":
+			p = new Square(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]));
+			break;
+		case "Kreis":
+			p = new Circle(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]));
+			break;
+		case "Elipse":
+			p = new Ellipse(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]), Integer.parseInt(zeile[8]));
+			break;
+		}
+		return p;
+
+	}
+
+	public void addAllToFile() {
+		for (Primitive p : primitives) {
+			writeInFile(p.values());
+		}
+	}
+	
+	private
+	
+	public void sortArea() {
+		
+		
+		/*for (int i = 1; i < primitives.size(); i++) {
+			for (int j = 0; j < primitives.size() - i; j++) {
+				if (primitives.get(j).getArea() > primitives.get(j+1).getArea()) {
+					temp = primitives.get(j);
+					primitives.add(j,primitives.get(j+1));
+					primitives.add(j+1,temp);
+					System.out.println(primitives.get(j).getArea());
+					System.out.println(primitives.get(j+1).getArea());
+				}
+			}
+		}*/
+	}
+
+	public void add(Primitive primi) throws WrongArgumentException{
+		if (primi != null) {
+			primitives.add(primi);
+		}
+		else{
+			throw new WrongArgumentException();
+		}
+	}
+
+	public void delete(Primitive primi)throws MyArrayOutOfBoundsException {
+		if(primitivepackage GeometrischeFormen;
+import MyException.*;
+
+import java.io.*;
+import java.util.ArrayList;
+
+public class ListPrimitives {
+	private ArrayList<Primitive> primitives = new ArrayList<Primitive>();
+	protected FileWriter writer;
+	protected FileReader reader;
+	private File file;
+
+	public ListPrimitives() {
+		file = new File("test.txt");
+	}
+	
+	public int getCount(){
+		return primitives.size();
+	}
+
+	public void sortScope() {
+		Primitive temp;
+		for (int i = 1; i < primitives.size(); i++) {
+			for (int j = 0; j < primitives.size() - i; j++) {
+				if (primitives.get(j).getScope() > primitives.get(j+1).getScope()) {
+					temp = primitives.get(j);
+					primitives.add(j,primitives.get(j+1));
+					primitives.add(j+1,temp);
+				}
+			}
+		}
+	}
+	
+
+	private void writeInFile(String text) {
+
+		try {
+			writer = new FileWriter(file, true);
+			writer.write(text + "\n");
+			writer.write(System.getProperty("line.separator"));
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			System.out.println("Mist");
+		}
+
+	}
+
+	public void readFile() {
+		try {
+			reader = new FileReader("test.txt");
+			BufferedReader br = new BufferedReader(reader);
+			String aktuelle = br.readLine();
+			while (aktuelle != null) {
+
+				addFromFile(aktuelle);
+				aktuelle = br.readLine();
+			}
+			br.close();
+			reader.close();
+		} catch (IOException e) {
+
+		}
+	}
+	private void addFromFile(String line) {
+		// System.out.println(line);
+		String[] zeile = line.split(";"); // in der Zeile stehen die Werte wie
+											// länge, koordinaten
+		Primitive p = erstelleForm(zeile);
+
+		boolean da = false;
+		if(primitives.contains(p)){
+		
+		}
+		try{
+		
+			if(primitives.contains(p)){
+				da = true;
+			}
+		}catch(Exception e){
+			System.out.println("Es gibt ein Problem in der Datei.");
+		}
+		if (!da) {
+			try {
+				add(p);
+			} catch (WrongArgumentException e) {
+				// TODO Auto-generated catch block
+				
+			}
+		}
+
+	}
+	
+	public Primitive getByIndex(int index) throws MyArrayOutOfBoundsException{
+		Primitive p;
+		try{
+			p = primitives.get(index);	
+			return p;
+		}
+		catch(MyArrayOutOfBoundsException e){
+			System.out.println(e);;
+		}
+		return null;
+	}
+
+	protected Primitive erstelleForm(String[] zeile) {
+		Primitive p = null;
+		switch (zeile[0]) {
+		case "Rechteck":
+			p = new Rectangle(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]), Double.parseDouble(zeile[8]));
+			break;
+		case "Quadrat":
+			p = new Square(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]));
+			break;
+		case "Kreis":
+			p = new Circle(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]));
+			break;
+		case "Elipse":
+			p = new Ellipse(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]), Integer.parseInt(zeile[8]));
+			break;
+		}
+		return p;
+
+	}
+
+	public void addAllToFile() {
+		for (Primitive p : primitives) {
+			writeInFile(p.values());
+		}
+	}
+	
+	private
+	
+	public void sortArea() {
+		
+		
+		/*for (int i = 1; i < primitives.size(); i++) {
+			for (int j = 0; j < primitives.size() - i; j++) {
+				if (primitives.get(j).getArea() > primitives.get(j+1).getArea()) {
+					temp = primitives.get(j);
+					primitives.add(j,primitives.get(j+1));
+					primitives.add(j+1,temp);
+					System.out.println(primitives.get(j).getArea());
+					System.out.println(primitives.get(j+1).getArea());
+				}
+			}
+		}*/
+	}
+
+	public void add(Primitive primi) throws WrongArgumentException{
+		if (primi != null) {
+			primitives.add(primi);
+		}
+		else{
+			throw new WrongArgumentException();
+		}
+	}
+
+	public void delete(Primitive primi)throws MyArrayOutOfBoundsException {
+		if(primitives.contains(primi)){
+			primitives.remove(primi);
+		}
+		else throw new MyArrayOutOfBoundsException();
+	}
+
+	public void print() {
+		int i = 0;
+		for (Primitive p : primitives) {
+			
+			System.out.println("[" + i++ + "] " + p.toString());
+		}
+	}
+}
+s.contains(primi)){
+			primitives.remove(primi);
+		}
+		else throw new MyArrayOutOfBoundsException();
+	}
+
+	public void print() {
+		int i = 0;
+		for (Primitive p : primitives) {
+			
+			System.out.println("[" + i++ + "] " + p.toString());
+		}
+	}
+}
+package GeometrischeFormen;
+import MyException.*;
+
+import java.io.*;
+import java.util.ArrayList;
+
+public class ListPrimitives {
+	private ArrayList<Primitive> primitives = new ArrayList<Primitive>();
+	protected FileWriter writer;
+	protected FileReader reader;
+	private File file;
+
+	public ListPrimitives() {
+		file = new File("test.txt");
+	}
+	
+	public int getCount(){
+		return primitives.size();
+	}
+
+	public void sortScope() {
+		Primitive temp;
+		for (int i = 1; i < primitives.size(); i++) {
+			for (int j = 0; j < primitives.size() - i; j++) {
+				if (primitives.get(j).getScope() > primitives.get(j+1).getScope()) {
+					temp = primitives.get(j);
+					primitives.add(j,primitives.get(j+1));
+					primitives.add(j+1,temp);
+				}
+			}
+		}
+	}
+	
+
+	private void writeInFile(String text) {
+
+		try {
+			writer = new FileWriter(file, true);
+			writer.write(text + "\n");
+			writer.write(System.getProperty("line.separator"));
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			System.out.println("Mist");
+		}
+
+	}
+
+	public void readFile() {
+		try {
+			reader = new FileReader("test.txt");
+			BufferedReader br = new BufferedReader(reader);
+			String aktuelle = br.readLine();
+			while (aktuelle != null) {
+
+				addFromFile(aktuelle);
+				aktuelle = br.readLine();
+			}
+			br.close();
+			reader.close();
+		} catch (IOException e) {
+
+		}
+	}
+	private void addFromFile(String line) {
+		// System.out.println(line);
+		String[] zeile = line.split(";"); // in der Zeile stehen die Werte wie
+											// länge, koordinaten
+		Primitive p = erstelleForm(zeile);
+
+		boolean da = false;
+		if(primitives.contains(p)){
+		
+		}
+		try{
+		
+			if(primitives.contains(p)){
+				da = true;
+			}
+		}catch(Exception e){
+			System.out.println("Es gibt ein Problem in der Datei.");
+		}
+		if (!da) {
+			try {
+				add(p);
+			} catch (WrongArgumentException e) {
+				// TODO Auto-generated catch block
+				
+			}
+		}
+
+	}
+	
+	public Primitive getByIndex(int index) throws MyArrayOutOfBoundsException{
+		Primitive p;
+		try{
+			p = primitives.get(index);	
+			return p;
+		}
+		catch(MyArrayOutOfBoundsException e){
+			System.out.println(e);;
+		}
+		return null;
+	}
+
+	protected Primitive erstelleForm(String[] zeile) {
+		Primitive p = null;
+		switch (zeile[0]) {
+		case "Rechteck":
+			p = new Rectangle(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]), Double.parseDouble(zeile[8]));
+			break;
+		case "Quadrat":
+			p = new Square(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]));
+			break;
+		case "Kreis":
+			p = new Circle(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]));
+			break;
+		case "Elipse":
+			p = new Ellipse(new Point(Double.parseDouble(zeile[2]), Double.parseDouble(zeile[4])),
+					Double.parseDouble(zeile[6]), Integer.parseInt(zeile[8]));
+			break;
+		}
+		return p;
+
+	}
+
+	public void addAllToFile() {
+		for (Primitive p : primitives) {
+			writeInFile(p.values());
+		}
+	}
+	
+	private
+	
+	public void sortArea() {
+		
+		
+		/*for (int i = 1; i < primitives.size(); i++) {
+			for (int j = 0; j < primitives.size() - i; j++) {
+				if (primitives.get(j).getArea() > primitives.get(j+1).getArea()) {
+					temp = primitives.get(j);
+					primitives.add(j,primitives.get(j+1));
+					primitives.add(j+1,temp);
+					System.out.println(primitives.get(j).getArea());
+					System.out.println(primitives.get(j+1).getArea());
+				}
+			}
+		}*/
+	}
+
+	public void add(Primitive primi) throws WrongArgumentException{
+		if (primi != null) {
+			primitives.add(primi);
+		}
+		else{
+			throw new WrongArgumentException();
+		}
+	}
+
+	public void delete(Primitive primi)throws MyArrayOutOfBoundsException {
+		if(primitives.contains(primi)){
+			primitives.remove(primi);
+		}
+		else throw new MyArrayOutOfBoundsException();
+	}
+
+	public void print() {
+		int i = 0;
+		for (Primitive p : primitives) {
+			
+			System.out.println("[" + i++ + "] " + p.toString());
+		}
+	}
+}
